@@ -19,7 +19,7 @@ with open('requirements.txt') as f:
 with open('README.md', 'r', encoding='utf-8') as rm_file:
     readme = rm_file.read()
 
-setup(name='libgenesis',
+setup(name='libgen-search',
       version=__version__,
       packages=find_packages(exclude=('tests')),
       url='https://github.com/krishna2206/libgen-search',

@@ -133,9 +133,18 @@ class Libgen:
 
         url = '&'.join([self.__search_url, req, res, column, sort, sort_mode])
 
-        return self.__search(url,
-                             filters,
-                             return_fields)
+        return self.__search(url, filters, return_fields)
+    
+    def resolve_download_links(self, item):
+        MIRROR_SOURCES = ["GET", "Cloudflare", "IPFS.io", "Crust", "Pinata"]
+
+        main_mirror_url = item["mirrors"]["main"]
+        page = requests.get(main_mirror_url)
+        soup = bsoup(page.text, "lxml")
+
+        links = soup.find_all("a", string=MIRROR_SOURCES)
+        download_links = {link.string: link["href"] for link in links}
+        return download_links
 
     def __search(self,
                  url: str,

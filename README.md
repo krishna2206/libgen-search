@@ -131,3 +131,34 @@ The returned data looks like this: (The dict key is the Libgen id of the book)
     },
 }
 ```
+
+## Resolving mirror links
+
+The mirror links returned in the results are not direct download links and do not resolve to a downloadable URL without further parsing.
+
+An additional method, ```resolve_download_links()```, can be to resolve the mirror links of a search item into direct download links.
+
+The ```main``` field is used by ```resolve_download_links()``` as the results generally contain the most useful URLs.
+
+This method accepts a single result (type: dictionary) from the array of searched results, and returns a dictionary of all the download links for ```main``` (each mirror link has up to 5 download links):
+
+```python
+from libgensearcn import Libgen
+
+libgen = Libgen()
+result = libgen.search('The Japanese Experience: A Short History of Japan (History of Civilisation)')
+
+download_links = libgen.resolve_download_links(result[0])
+print(download_links)
+```
+
+Example output:
+```python
+{
+  "GET": "http://example.com/file.epub",
+  "Cloudflare": "http://example.com/file.epub",
+  "IPFS.io": "http://example.com/file.epub",
+  "Crust": "http://example.com/file.epub",
+  "Pinata": "http://example.com/file.epub"
+}
+```
